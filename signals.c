@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -7,7 +6,7 @@
 #include <signal.h>
 #define SIGCATHCHER 1;
 int p;
-void sighandler(int signum) {
+void sigCathcher(int signum) {
 
    
         printf("PID %d caught one \n", getpid());
@@ -51,8 +50,8 @@ int main () {
 		
 		else{
 			p=i;
-			signal(SIGINT, sighandler);
-			if (signal(SIGCATHCHER, sighandler) == SIG_ERR)
+			signal(SIGINT, sigCathcher);
+			if (signal(SIGINT, sigCathcher) == SIG_ERR)
 
                 printf("\n fail singal \n");
             printf("PID %d ready \n",getpid());
