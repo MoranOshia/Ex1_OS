@@ -7,54 +7,90 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/fcntl.h>
+#include <sys/wait.h>
+
+int prevPID =0;
 
 //This function will be calld as a reaction to catching a signal.
-void catchSigT(int sig_num)
+void sigCathcher(int signal)
 {
 
-signal(SIGTERM, catchSigT);
+		printf("PID %d caught one \n", getpid());
+		if(prevPID!=0){
+			
+			if(kill((getpid()-1),SIGINT)<0) {
+
+                printf("\n Error do not sucsses %d\n",getpid());
+
+                exit(1);
+
+            }
+
+		}
+		sleep(1);
+		exit(1);
 
 };
-int pid[5];
-int i = 0;
 
+int pid[5];
+int ind = 0;
+int pID;
 
 int main (char **argv, int argc)
 {
 
 
-signal(SIGTERM, catchSigT);
+for (int i = 0; i < 5; i++)
+    {
+		
+		pID=fork();
+		pid[ind]=pID;
+		ind++;
+        if (pID< 0){
+			perror("error of fork function");
+			exit(1);
+		}
+		
+		
+		if (pID == 0)
+        {
+			
+			prevPID=pid[i-1];
+			signal(SIGINT, sigCathcher);
+            printf("PID %d ready \n", getpid());
+            break;
+        }
+   
+	}
+	sleep(1);
+	
 
-pid[0] = fork();
-if(pid[0] != 0)
-pid[1] = fork();
-if(pid[1] != 0)
-pid[2] = fork();
-if(pid[2] != 0)
-pid[3] = fork();
-if(pid[3] != 0)
-pid[4] = fork();
+    if(pid[4]==0) {
 
+        while(1);
 
+    } 
+	
+	else if(pid[4]>0){
+		int status;
+		pid_t dead ;
+		sleep(1);
 
-if(pid[0] == 0 || pid[1] == 0 ||pid[2] == 0 || pid[3] == 0|| pid[4] == 0){
-printf("pid %d ready\n", getpid());
+        kill(pid[4],SIGINT);
 
+        
 
-}
-sleep(1);
-if(pid[0] == 0 || pid[1] == 0 ||pid[2] == 0 || pid[3] == 0|| pid[4] == 0){
-kill(pid[i++],SIGTERM);
-printf("pid %d caught one\n",getpid());
-}
-sleep(0.75);
+        for(int i=0; i<5; i++) {
 
+            dead=waitpid(pid[i], &status, 0);
 
-if(pid[0] == 0 || pid[1] == 0 ||pid[2] == 0 || pid[3] == 0|| pid[4] == 0)
-printf("process %d is dead\n",getpid());
-kill(getpid(), SIGINT);
+            printf("Process %d is dead \n",dead);
 
-return 0;
+        }
+
+        exit(1);
+		
+	}
 
 
 
