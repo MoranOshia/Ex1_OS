@@ -1,6 +1,6 @@
 /**
  * A Processes program Question 3 Ex 1 os.
- * @author Isreal Buskila and Moran Oshia
+ * @author Isreal Buskila, netanel nadav and Moran Oshia
  * @since  2019-06
  */
 #include <stdio.h>
