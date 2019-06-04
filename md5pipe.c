@@ -1,3 +1,8 @@
+/**
+ * A Processes Pipes Question 2 Ex 1 os.
+ * @author Isreal Buskila and Moran Oshia
+ * @since  2019-06
+ */
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
