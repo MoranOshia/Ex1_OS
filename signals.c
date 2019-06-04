@@ -1,3 +1,8 @@
+/**
+ * A Processes program Question 3 Ex 1 os.
+ * @author Isreal Buskila and Moran Oshia
+ * @since  2019-06
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -70,7 +75,7 @@ for (int i = 0; i < 5; i++)
         while(1);
 
     } 
-	
+	//killing zombies
 	else if(pid[4]>0){
 		int status;
 		pid_t dead ;
